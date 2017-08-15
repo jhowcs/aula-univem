@@ -19,8 +19,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ListView lvNomes;
     private View emptyStateView;
 
-    private List<String> listaDeNomes;
+    private ArrayList<String> listaDeNomes;
     private ArrayAdapter<String> arrayAdapter;
+
+    private static final String STATE_LISTA = "state_lista";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +35,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         emptyStateView = findViewById(R.id.empty_view);
 
         btnAdicionar.setOnClickListener(this);
+
+        if (savedInstanceState == null) {
+            listaDeNomes = new ArrayList<>();
+        } else {
+            listaDeNomes =  savedInstanceState.getStringArrayList(STATE_LISTA);
+        }
+
         inicializaAdapterLista();
     }
 
     private void inicializaAdapterLista() {
-        listaDeNomes = new ArrayList<>();
-
         arrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,
                 listaDeNomes);
@@ -61,5 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // e portanto a lista deve carregar o novo valor
     private void notificarAdapterDasMudancas() {
         arrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList(STATE_LISTA, listaDeNomes);
     }
 }
