@@ -6,6 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.jhowcs.aula01_serializando.MainActivity">
 
+    <!--todo adicione 2 campos editText para nome e valor da ação (Stock)
+    o campo valor da ação deve aceitar apenas decimal ([0-9] e ", .")
+    -->
+
     <Button
         android:id="@+id/btnActivity2"
         android:layout_width="wrap_content"
