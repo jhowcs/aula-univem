@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Aula01-Serializando</string>
+    <string name="ir_para_activity_2">ir para activity 2</string>
+</resources>
