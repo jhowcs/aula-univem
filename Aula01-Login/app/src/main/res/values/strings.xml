@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Aula01-Login</string>
+    <string name="login">login</string>
+    <string name="senha">senha</string>
+</resources>
