@@ -2,4 +2,7 @@
     <string name="app_name">Aula01-Login</string>
     <string name="login">login</string>
     <string name="senha">senha</string>
+    <string name="detalhe_produto">detalhe produto</string>
+    <string name="for_a_resultado">força resultado</string>
+    <string name="mensagem_erro_login">Login e/ou senha inválido</string>
 </resources>
