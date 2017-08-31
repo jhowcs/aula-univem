@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="180dp"
+    android:layout_height="250dp"
     tools:padding="16dp"
     tools:ignore="UseCompoundDrawables">
 
     <ImageView
         android:id="@+id/imgActionFigure"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="150dp"
+        android:layout_height="180dp"
         android:contentDescription="@null"
         tools:src="@mipmap/ic_launcher"/>
 
@@ -18,10 +17,9 @@
         android:id="@+id/txtActionFigureName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_gravity="center"
-        tools:text="Android Nougat"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
 
-</LinearLayout>
+        android:layout_gravity="bottom"
+        tools:text="Android Nougat"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
+
+</FrameLayout>

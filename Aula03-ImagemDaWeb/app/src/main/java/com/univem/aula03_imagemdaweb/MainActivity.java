@@ -1,8 +1,8 @@
 package com.univem.aula03_imagemdaweb;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupAdapter() {
         adapter = new ImageGridAdapter(getStaticList());
 
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        rvActionFigure.setLayoutManager(llm);
+        GridLayoutManager glm = new GridLayoutManager(this, 2);
+        rvActionFigure.setLayoutManager(glm);
         rvActionFigure.setAdapter(adapter);
     }
 
