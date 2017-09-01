@@ -21,7 +21,7 @@ public class FilmeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void setFilmes(ArrayList<Filme> filmes) {
-        filmeArrayList = filmes;
+        filmeArrayList.addAll(filmes);
         notifyDataSetChanged();
     }
 
