@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
+import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener;
 import com.univem.aula03_integracaomoviedb.adapter.FilmeAdapter;
 import com.univem.aula03_integracaomoviedb.api.FabricaRetrofit;
 import com.univem.aula03_integracaomoviedb.api.FilmeServico;
@@ -22,13 +25,19 @@ public class MainActivity extends AppCompatActivity {
     private Retrofit retrofitInstance;
 
     private RecyclerView rvFilmes;
+    private LinearLayoutManager linearLayoutManager;
     private FilmeAdapter adapter;
+    private int MAX_ITEM_PER_REQUEST = 20;
+    private int page = 1;
+    private boolean travarBusca = false;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rvFilmes = findViewById(R.id.rvFilmes);
+        progressBar = findViewById(R.id.progress);
         inicializarAdapter();
         inicializarRecyclerView();
         buscarFilmes();
@@ -39,31 +48,62 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inicializarRecyclerView() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         rvFilmes.setLayoutManager(linearLayoutManager);
         rvFilmes.setAdapter(adapter);
+        rvFilmes.setHasFixedSize(true);
+        rvFilmes.addOnScrollListener(criarScrollInfinito());
     }
 
     private void buscarFilmes() {
+        travarBusca = true;
+
         retrofitInstance = FabricaRetrofit.getRetrofitInstance();
         FilmeServico filmeServico = retrofitInstance.create(FilmeServico.class);
 
+        exibirLoading();
+
         filmeServico
-                .getFilmesPopulares("sua_api_key").enqueue(new Callback<FilmeResultados>() {
+                .getFilmesPopulares("pt-BR", "sua_key_aqui", page).enqueue(new Callback<FilmeResultados>() {
             @Override
             public void onResponse(Call<FilmeResultados> call, Response<FilmeResultados> response) {
-                Log.d(TAG, "onResponse: " + response.toString());
                 FilmeResultados body = response.body();
 
                 if (body != null) {
                     adapter.setFilmes(body.getResults());
                 }
+
+                esconderLoading();
+                travarBusca = false;
+                ++page;
             }
 
             @Override
             public void onFailure(Call<FilmeResultados> call, Throwable t) {
-                Log.d(TAG, "onFailure: ");
+                esconderLoading();
+                travarBusca = false;
             }
         });
+    }
+
+    private InfiniteScrollListener criarScrollInfinito() {
+        return new InfiniteScrollListener(MAX_ITEM_PER_REQUEST, linearLayoutManager) {
+            @Override
+            public void onScrolledToEnd(int firstVisibleItemPosition) {
+                if (travarBusca == false) {
+                    buscarFilmes();
+                    refreshView(rvFilmes, adapter, firstVisibleItemPosition);
+                    Log.d("onScrolledToEnd", "page: " + page );
+                }
+            }
+        };
+    }
+
+    private void exibirLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void esconderLoading() {
+        progressBar.setVisibility(View.GONE);
     }
 }
