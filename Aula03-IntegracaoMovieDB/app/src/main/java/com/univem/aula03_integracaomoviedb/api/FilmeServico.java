@@ -1,7 +1,7 @@
 package com.univem.aula03_integracaomoviedb.api;
 
 
-import com.univem.aula03_integracaomoviedb.model.FilmeResultados;
+import com.univem.aula03_integracaomoviedb.feature.filmepopular.model.FilmeResultados;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

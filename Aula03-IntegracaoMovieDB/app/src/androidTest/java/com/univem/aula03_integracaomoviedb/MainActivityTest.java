@@ -2,13 +2,13 @@ package com.univem.aula03_integracaomoviedb;
 
 import android.content.Intent;
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
 import com.univem.aula03_integracaomoviedb.api.FabricaRetrofit;
 import com.univem.aula03_integracaomoviedb.api.ProvedorRetrofit;
+import com.univem.aula03_integracaomoviedb.feature.filmepopular.view.MainActivity;
 
 import org.hamcrest.Matchers;
 import org.junit.After;

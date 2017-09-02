@@ -1,4 +1,4 @@
-package com.univem.aula03_integracaomoviedb.model;
+package com.univem.aula03_integracaomoviedb.feature.filmepopular.model;
 
 import com.google.gson.annotations.SerializedName;
 

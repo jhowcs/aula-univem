@@ -1,4 +1,4 @@
-package com.univem.aula03_integracaomoviedb.adapter;
+package com.univem.aula03_integracaomoviedb.feature.filmepopular.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.univem.aula03_integracaomoviedb.R;
-import com.univem.aula03_integracaomoviedb.model.Filme;
+import com.univem.aula03_integracaomoviedb.feature.filmepopular.model.Filme;
 
 import java.util.ArrayList;
 
