@@ -14,6 +14,9 @@ import java.util.ArrayList;
 
 public class FilmeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int VIEW_TYPE_DADOS = 1;
+    private static final int VIEW_TYPE_EMPTY = 2;
+
     private ArrayList<Filme> filmeArrayList;
 
     public FilmeAdapter() {
@@ -26,25 +29,50 @@ public class FilmeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater
-                .from(parent.getContext())
-                .inflate(R.layout.item_lista_filme, parent, false);
+    public int getItemViewType(int position) {
+        if (filmeArrayList == null || filmeArrayList.isEmpty()) {
+            return VIEW_TYPE_EMPTY;
+        }
 
-        return new FilmeViewHolder(view);
+        return VIEW_TYPE_DADOS;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        if (viewType == VIEW_TYPE_DADOS) {
+
+            view = LayoutInflater
+                    .from(parent.getContext())
+                    .inflate(R.layout.item_lista_filme, parent, false);
+            return new FilmeViewHolder(view);
+
+        } else {
+            view = LayoutInflater
+                    .from(parent.getContext())
+                    .inflate(R.layout.item_lista_empty_state, parent, false);
+
+            return new EmptyStateViewHolder(view);
+        }
+
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        FilmeViewHolder filmeViewHolder = (FilmeViewHolder) holder;
+        if (holder instanceof FilmeViewHolder) {
+            FilmeViewHolder filmeViewHolder = (FilmeViewHolder) holder;
 
-        Filme filme = filmeArrayList.get(position);
+            Filme filme = filmeArrayList.get(position);
 
-        filmeViewHolder.txtNomeFilme.setText(filme.getTitle());
+            filmeViewHolder.txtNomeFilme.setText(filme.getTitle());
+        }
     }
 
     @Override
     public int getItemCount() {
+        if (filmeArrayList == null || filmeArrayList.isEmpty()) {
+            return 1;
+        }
         return filmeArrayList.size();
     }
 
@@ -56,6 +84,13 @@ public class FilmeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             super(itemView);
 
             txtNomeFilme = itemView.findViewById(R.id.txtNomeFilme);
+        }
+    }
+
+    static final class EmptyStateViewHolder extends  RecyclerView.ViewHolder {
+
+        public EmptyStateViewHolder(View itemView) {
+            super(itemView);
         }
     }
 }
