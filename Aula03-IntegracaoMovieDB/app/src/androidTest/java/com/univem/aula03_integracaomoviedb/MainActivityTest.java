@@ -67,4 +67,13 @@ public class MainActivityTest {
                         ViewMatchers.withText("Minions"))
         ).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
+
+    @Test
+    public void aoIniciarActivityComListaDeFilmesVazia_DeveExibirEmptyState() {
+        server.enqueue(new MockResponse().setResponseCode(200).setBody(""));
+        activityTestRule.launchActivity(new Intent());
+
+        Espresso.onView(ViewMatchers.withText(R.string.ops_dados_n_o_encontrado))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
 }
