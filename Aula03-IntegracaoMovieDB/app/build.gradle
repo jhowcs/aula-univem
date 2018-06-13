@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.univem.aula03_integracaomoviedb"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -21,14 +21,14 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestCompile 'com.android.support.test:runner:1.0.2'
+    androidTestCompile 'com.android.support.test:rules:1.0.2'
     androidTestCompile "com.squareup.okhttp3:mockwebserver:3.8.0"
     androidTestCompile 'org.mockito:mockito-android:2.7.22'
 
-    compile 'com.android.support:appcompat-v7:26.0.1'
-    compile 'com.android.support:recyclerview-v7:26.0.1'
+    compile 'com.android.support:appcompat-v7:27.1.1'
+    compile 'com.android.support:recyclerview-v7:27.1.1'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
