@@ -10,35 +10,24 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 
+import br.com.concretesolutions.requestmatcher.InstrumentedTestRequestMatcherRule;
+import br.com.concretesolutions.requestmatcher.RequestMatcherRule;
 import okhttp3.mockwebserver.MockWebServer;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServerRule implements TestRule {
 
-    private MockWebServer server;
+    private RequestMatcherRule server = new InstrumentedTestRequestMatcherRule();
 
     @Override
     public Statement apply(final Statement base, Description description) {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                server = new MockWebServer();
+                setupMockRetrofit();
+                base.evaluate();
 
-                try {
-                    server.start();
-                    setupMockRetrofit();
-                    base.evaluate();
-                } catch (IOException io) {
-                    System.out.println("Error on start mock web server");
-                } finally {
-                    tearDown();
-                }
-
-            }
-
-            public void tearDown() throws IOException {
-                server.shutdown();
             }
         };
     }
@@ -58,7 +47,15 @@ public class ServerRule implements TestRule {
         FabricaRetrofit.setProvedorRetrofit(provedorRetrofit);
     }
 
-    public MockWebServer getServer() {
+    public RequestMatcherRule getServer() {
         return server;
+    }
+
+    public void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

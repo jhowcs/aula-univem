@@ -10,7 +10,7 @@ import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 
-import okhttp3.mockwebserver.MockResponse;
+import br.com.concretesolutions.requestmatcher.model.HttpMethod;
 
 public class MainActivityTest {
 
@@ -24,8 +24,11 @@ public class MainActivityTest {
 
     @Test
     public void aoIniciarActivity_DeveExibirListaDeFilmesPopulares() {
-        serverRule.getServer().enqueue(new MockResponse().setResponseCode(200).setBody(FilmesPopularesMock.mock));
+        serverRule.getServer().addFixture(200, "popular_movies_result_ok.json")
+                ;
+
         activityTestRule.launchActivity(new Intent());
+        serverRule.sleep(5000);
         Espresso.onView(
                 Matchers.allOf(
                         ViewMatchers.withId(R.id.txtNomeFilme),
