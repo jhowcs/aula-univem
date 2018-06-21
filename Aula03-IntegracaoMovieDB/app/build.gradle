@@ -24,7 +24,12 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.2'
     androidTestCompile 'com.android.support.test:runner:1.0.2'
     androidTestCompile 'com.android.support.test:rules:1.0.2'
-    androidTestCompile "com.squareup.okhttp3:mockwebserver:3.8.0"
+    androidTestCompile ("com.squareup.okhttp3:mockwebserver:3.4.1", {
+        exclude group: "com.squareup.okhttp3", module: "okhttp"
+        exclude group: "com.squareup.okio", module: "okio"
+    })
+
+    androidTestCompile 'br.com.concretesolutions:requestmatcher:2.2.0'
     androidTestCompile 'org.mockito:mockito-android:2.7.22'
 
     compile 'com.android.support:appcompat-v7:27.1.1'
