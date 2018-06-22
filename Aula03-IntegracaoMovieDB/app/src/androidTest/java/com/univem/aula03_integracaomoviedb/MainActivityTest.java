@@ -10,25 +10,22 @@ import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 
-import br.com.concretesolutions.requestmatcher.model.HttpMethod;
-
 public class MainActivityTest {
+
+    @Rule
+    public final ServerRule rule = new ServerRule();
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule =
             new ActivityTestRule<>(MainActivity.class, true, false);
 
-    @Rule
-    public ServerRule serverRule = new ServerRule();
-
 
     @Test
-    public void aoIniciarActivity_DeveExibirListaDeFilmesPopulares() {
-        serverRule.getServer().addFixture(200, "popular_movies_result_ok.json")
-                ;
+    public void aoIniciarActivity_DeveExibirListaDeFilmesPopulares() throws InterruptedException {
+        rule.server.addFixture(200, "popular_movies_result_ok.json");
 
         activityTestRule.launchActivity(new Intent());
-        serverRule.sleep(5000);
+
         Espresso.onView(
                 Matchers.allOf(
                         ViewMatchers.withId(R.id.txtNomeFilme),

@@ -8,43 +8,47 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.mockito.Mockito;
 
-import java.io.IOException;
-
 import br.com.concretesolutions.requestmatcher.InstrumentedTestRequestMatcherRule;
 import br.com.concretesolutions.requestmatcher.RequestMatcherRule;
-import okhttp3.mockwebserver.MockWebServer;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServerRule implements TestRule {
 
-    private RequestMatcherRule server = new InstrumentedTestRequestMatcherRule();
+    final RequestMatcherRule server = new InstrumentedTestRequestMatcherRule();
 
     @Override
     public Statement apply(final Statement base, Description description) {
-        return new Statement() {
-            @Override
-            public void evaluate() throws Throwable {
-                setupMockRetrofit();
-                base.evaluate();
-
-            }
-        };
+        return server.apply(new StubRetrofitStatement(base), description);
     }
 
-    private void setupMockRetrofit() {
-        String url = server.url("/").toString();
+    class StubRetrofitStatement extends Statement {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        private Statement base;
 
-        ProvedorRetrofit provedorRetrofit = Mockito.mock(ProvedorRetrofit.class);
+        public StubRetrofitStatement(Statement base) {
+            this.base = base;
+        }
 
-        Mockito.when(provedorRetrofit.getRetroInstance()).thenReturn(retrofit);
+        @Override
+        public void evaluate() throws Throwable {
+            String url = server.url("/").toString();
 
-        FabricaRetrofit.setProvedorRetrofit(provedorRetrofit);
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(url)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            ProvedorRetrofit provedorRetrofit = Mockito.mock(ProvedorRetrofit.class);
+
+            Mockito.when(provedorRetrofit.getRetroInstance()).thenReturn(retrofit);
+
+            FabricaRetrofit.setProvedorRetrofit(provedorRetrofit);
+
+            if (base != null) {
+                base.evaluate();
+            }
+        }
     }
 
     public RequestMatcherRule getServer() {
